@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
-import {login} from '../../client/auth.client'
+import {useSelector,useDispatch} from 'react-redux';
+import {loginAsyncActionCreator } from '../../store/modules/actions';
+
 
 const LoginForm = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     
+    const store = useSelector(store => store)
+    const dispatch = useDispatch();
+
     const handlerOnSubmit = (e) => {
         e.preventDefault();
-        console.log(email,password);
-        login({
+        dispatch(loginAsyncActionCreator({
             email,
             password,
-        })
+        }))
 
     };
 
@@ -22,6 +26,9 @@ const LoginForm = () => {
                 <input type="password" value = {password} onChange = {({target}) => setPassword(target.value)}/>
                 <button>submit</button>
             </form>
+            <pre>
+                {JSON.stringify(store,undefined,2)}
+            </pre>
 
         </div>
     )
